@@ -2,6 +2,32 @@
     flex: 1;
 }
 
+
+.toolbar-card {
+  display: flex;
+  align-items: center;
+  background-color: #7f1734;
+  color: white;
+  font-weight: 600;
+  margin: 20px;
+}
+
+.newGameButton{
+  background-color: white;
+  color: #7f1734;
+}
+
+.newRoundButton{
+
+  color: white;
+  background-color: #7f1734;
+  margin-top: 20px
+}
+
+span{
+  font-size: xx-large;
+}
+
 .toolbar {
     position: absolute;
     top: 0;

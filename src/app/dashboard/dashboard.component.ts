@@ -72,6 +72,13 @@ export class DashboardComponent implements OnInit {
   player4Value = '';
   player5Value = '';
 
+  scorePlayer1!: number;
+  scorePlayer2!: number;
+  scorePlayer3!: number;
+  scorePlayer4!: number;
+  scorePlayer5!: number;
+
+
   rounds: Round[] = [];
 
   players: PlayerData;
@@ -188,23 +195,29 @@ export class DashboardComponent implements OnInit {
 
   correctInputFormat(){
     switch(this.nbPlayers){
-      case 2: return this.player1Value && this.player2Value;
-      case 3: return this.player1Value &&  this.player2Value && this.player3Value;
-      case 4: return this.player1Value &&  this.player2Value && this.player3Value && this.player4Value;
-      case 5: return this.player1Value &&  this.player2Value && this.player3Value && this.player4Value && this.player5Value;
+      case 2: return this.scorePlayer1 && this.scorePlayer2;
+      case 3: return this.scorePlayer1 &&  this.scorePlayer2 && this.scorePlayer3;
+      case 4: return this.scorePlayer1 &&  this.scorePlayer2 && this.scorePlayer3 && this.scorePlayer4;
+      case 5: return this.scorePlayer1 &&  this.scorePlayer2 && this.scorePlayer3 && this.scorePlayer4 && this.scorePlayer5;
       default: return false;
     }
   }
 
   addRound(){
 
+    this.scorePlayer1 = parseInt(this.player1Value);
+    this.scorePlayer2 = parseInt(this.player2Value);
+    this.scorePlayer3 = parseInt(this.player3Value);
+    this.scorePlayer4 = parseInt(this.player4Value);
+    this.scorePlayer5 = parseInt(this.player5Value);
+
     if( this.correctInputFormat() ){
 
-      const player1 = (this.nbPlayers >= 1)? {name: this.players.player1, score: this.player1Value} : null;
-      const player2 = (this.nbPlayers >= 2)? {name: this.players.player2, score: this.player2Value} : null;
-      const player3 = (this.nbPlayers >= 3)? {name: this.players.player3, score: this.player3Value} : null;
-      const player4 = (this.nbPlayers >= 4)? {name: this.players.player4, score: this.player4Value} : null;
-      const player5 = (this.nbPlayers >= 5)? {name: this.players.player5, score: this.player5Value} : null;
+      const player1 = (this.nbPlayers >= 1)? {name: this.players.player1, score: this.scorePlayer1} : null;
+      const player2 = (this.nbPlayers >= 2)? {name: this.players.player2, score: this.scorePlayer2} : null;
+      const player3 = (this.nbPlayers >= 3)? {name: this.players.player3, score: this.scorePlayer3} : null;
+      const player4 = (this.nbPlayers >= 4)? {name: this.players.player4, score: this.scorePlayer4} : null;
+      const player5 = (this.nbPlayers >= 5)? {name: this.players.player5, score: this.scorePlayer5} : null;
 
       const dialogRef = this.dialog.open(AddRoundValidate, {
         width: '500px',
@@ -222,11 +235,11 @@ export class DashboardComponent implements OnInit {
           this.rounds.push(
             {
               round_id: this.rounds.length + 1,
-              player1: parseInt(this.player1Value),
-              player2: parseInt(this.player2Value),
-              player3: parseInt(this.player3Value),
-              player4: parseInt(this.player4Value),
-              player5: parseInt(this.player5Value)
+              player1: this.scorePlayer1,
+              player2: this.scorePlayer2,
+              player3: this.scorePlayer3,
+              player4: this.scorePlayer4,
+              player5: this.scorePlayer5
             }
           );
           localStorage.setItem('roundList', JSON.stringify(this.rounds));
