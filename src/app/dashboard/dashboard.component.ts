@@ -186,44 +186,60 @@ export class DashboardComponent implements OnInit {
     return finalColumns;
   }
 
+  correctInputFormat(){
+    switch(this.nbPlayers){
+      case 2: return this.player1Value && this.player2Value;
+      case 3: return this.player1Value &&  this.player2Value && this.player3Value;
+      case 4: return this.player1Value &&  this.player2Value && this.player3Value && this.player4Value;
+      case 5: return this.player1Value &&  this.player2Value && this.player3Value && this.player4Value && this.player5Value;
+      default: return false;
+    }
+  }
+
   addRound(){
 
-    const player1 = (this.nbPlayers >= 1)? {name: this.players.player1, score: this.player1Value} : null;
-    const player5 = (this.nbPlayers >= 5)? {name: this.players.player5, score: this.player5Value} : null;
+    if( this.correctInputFormat() ){
 
-    const dialogRef = this.dialog.open(AddRoundValidate, {
-      width: '500px',
-      data: {
-        player1: {name: this.players.player1, score: this.player1Value},
-        player2: {name: this.players.player2, score: this.player2Value},
-        player3: {name: this.players.player3, score: this.player3Value}, 
-        player4: {name: this.players.player4, score: this.player4Value},
-        player5!: player5
-      }
-    });
+      const player1 = (this.nbPlayers >= 1)? {name: this.players.player1, score: this.player1Value} : null;
+      const player2 = (this.nbPlayers >= 2)? {name: this.players.player2, score: this.player2Value} : null;
+      const player3 = (this.nbPlayers >= 3)? {name: this.players.player3, score: this.player3Value} : null;
+      const player4 = (this.nbPlayers >= 4)? {name: this.players.player4, score: this.player4Value} : null;
+      const player5 = (this.nbPlayers >= 5)? {name: this.players.player5, score: this.player5Value} : null;
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.rounds.push(
-          {
-            round_id: this.rounds.length + 1,
-            player1: parseInt(this.player1Value),
-            player2: parseInt(this.player2Value),
-            player3: parseInt(this.player3Value),
-            player4: parseInt(this.player4Value),
-            player5: parseInt(this.player5Value)
-          }
-        );
-        localStorage.setItem('roundList', JSON.stringify(this.rounds));
-        this.columns = this.setColumns();
-        this.table.renderRows();
-        this.player1Value = '';
-        this.player2Value = '';
-        this.player3Value = '';
-        this.player4Value = '';
-        this.player5Value = '';
-      }
-    })
+      const dialogRef = this.dialog.open(AddRoundValidate, {
+        width: '500px',
+        data: {
+          player1: player1,
+          player2: player2,
+          player3: player3, 
+          player4: player4,
+          player5!: player5
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          this.rounds.push(
+            {
+              round_id: this.rounds.length + 1,
+              player1: parseInt(this.player1Value),
+              player2: parseInt(this.player2Value),
+              player3: parseInt(this.player3Value),
+              player4: parseInt(this.player4Value),
+              player5: parseInt(this.player5Value)
+            }
+          );
+          localStorage.setItem('roundList', JSON.stringify(this.rounds));
+          this.columns = this.setColumns();
+          this.table.renderRows();
+          this.player1Value = '';
+          this.player2Value = '';
+          this.player3Value = '';
+          this.player4Value = '';
+          this.player5Value = '';
+        }
+      });
+    }
   }
 }
 

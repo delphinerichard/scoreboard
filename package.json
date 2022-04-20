@@ -1,11 +1,14 @@
 {
   "name": "scoreboard",
+  "homepage": "https://delphinerichard.github.io/scoreboard/",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 192.168.56.108",
     "start:local": "ng serve",
-    "build": "ng build",
+    "build:local": "ng build",
+    "build": "ng build --prod --base-href 'https://delphinerichard.github.io/scoreboard/'",
+    "deploy":"npx angular-cli-ghpages --dir=dist/scoreboard",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -21,6 +24,7 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
+    "angular-cli-ghpages": "^1.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
