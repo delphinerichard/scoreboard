@@ -8,7 +8,7 @@
     "start:local": "ng serve",
     "build:local": "ng build",
     "build": "ng build --prod --base-href 'https://delphinerichard.github.io/scoreboard/'",
-    "deploy":"npx angular-cli-ghpages --dir=dist/scoreboard",
+    "deploy": "npx angular-cli-ghpages --dir=dist/scoreboard",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -19,6 +19,7 @@
     "@angular/common": "~13.3.0",
     "@angular/compiler": "~13.3.0",
     "@angular/core": "~13.3.0",
+    "@angular/fire": "^7.3.0",
     "@angular/forms": "~13.3.0",
     "@angular/material": "^13.3.3",
     "@angular/platform-browser": "~13.3.0",

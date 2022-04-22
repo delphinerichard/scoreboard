@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { DashboardComponent, AddRoundValidate } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -19,14 +19,25 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
-
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { Firestore } from '@angular/fire/firestore';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { CurrentGameComponent, AddRoundValidate } from './current-game/current-game.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { ScoresComponent } from './scores/scores.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     NewGameComponent,
-    AddRoundValidate
+    AddRoundValidate,
+    ToolbarComponent,
+    CurrentGameComponent,
+    ScoresComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +57,13 @@ import {MatListModule} from '@angular/material/list';
     ReactiveFormsModule,
     MatGridListModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    AngularFireModule.initializeApp(environment.firebase, 'scoreboard-47ae9'),
+    AngularFirestoreModule,
+    MatTabsModule,
+    MatExpansionModule
   ],
-  providers: [],
+  providers: [DashboardComponent, NewGameComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

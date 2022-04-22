@@ -1,120 +1,20 @@
-<!-- Toolbar -->
 <div class="toolbar" role="banner">
-  <!-- <img
-    width="40"
-    alt="Angular Logo"
-    src="../../assets/logo2.png"
-  /> -->
-
-  <div class="toolbar-card">
-  <mat-icon>casino</mat-icon></div>
-
-  <div class = "spacer"></div>
-  <div class="toolbar-card"><span>Skyjo</span></div>
-    <div class="spacer"></div>
-    <!-- <img
-    width="40"
-    alt="Angular Logo"
-    src="../../assets/logo2.png"
-  /> -->
-  
-  <button class="newGameButton" mat-raised-button (click)="newGame()"><mat-icon>gesture</mat-icon>    Nouveau Jeu</button>
-  <div class = "toolbar-card"></div>
+  <app-toolbar></app-toolbar>
 </div>
   
 <div class="content" role="main">
-  
-  <!-- <div class="example-container mat-elevation-z8"> -->
+  <mat-tab-group mat-align-tabs="center" primary [(selectedIndex)]=selectedIndex>
+    <mat-tab label="Nouvelle partie">
+      <app-new-game></app-new-game>
+    </mat-tab>
+    <mat-tab label="Partie en cours" [disabled]="!activate">
 
-    <mat-card class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="rounds">
-
-        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef" >
-            <th mat-header-cell *matHeaderCellDef >
-              <div>{{column.header}}</div>
-            </th>
-            <td mat-cell *matCellDef="let row ">
-              <div>{{column.cell(row)}}</div>
-            </td>
-            <td mat-footer-cell *matFooterCellDef> {{column.footer()}} </td>
-        </ng-container>   
-        
-        <ng-container matColumnDef="newRound">
-          <td mat-footer-cell *matFooterCellDef> {{rounds.length +1 }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="player1Form">
-          <td mat-footer-cell *matFooterCellDef>
-            <form>
-              <mat-form-field class="formNewRound" appearance="outline">
-                <input matInput type="text" [(ngModel)]="player1Value" name="first">
-                <button *ngIf="player1Value" matSuffix mat-icon-button aria-label="Clear" (click)="player1Value=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </form>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="player2Form">
-          <td mat-footer-cell *matFooterCellDef>
-            <form>
-              <mat-form-field class="formNewRound" appearance="outline">
-                <input matInput type="text" [(ngModel)]="player2Value" name="first">
-                <button *ngIf="player2Value" matSuffix mat-icon-button aria-label="Clear" (click)="player2Value=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </form>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="player3Form" *ngIf="nbPlayers>=3">
-          <td mat-footer-cell *matFooterCellDef>
-            <form>
-              <mat-form-field class="formNewRound" appearance="outline">
-                <input matInput type="text" [(ngModel)]="player3Value" name="first">
-                <button *ngIf="player3Value" matSuffix mat-icon-button aria-label="Clear" (click)="player3Value=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </form>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="player4Form" *ngIf="nbPlayers>=4">
-          <td mat-footer-cell *matFooterCellDef>
-            <form>
-              <mat-form-field class="formNewRound" appearance="outline">
-                <input matInput type="text" [(ngModel)]="player4Value" name="first">
-                <button *ngIf="player4Value" matSuffix mat-icon-button aria-label="Clear" (click)="player4Value=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </form>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="player5Form" *ngIf="nbPlayers>=5">
-          <td mat-footer-cell *matFooterCellDef>
-            <form>
-              <mat-form-field class="formNewRound" appearance="outline">
-                <input matInput type="text" [(ngModel)]="player5Value" name="first">
-                <button *ngIf="player5Value" matSuffix mat-icon-button aria-label="Clear" (click)="player5Value=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </form>
-          </td>
-        </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      <tr mat-footer-row *matFooterRowDef="displayedFormColumns"></tr>
-      <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
-    </table>
-      <button mat-raised-button class="newRoundButton" (click)="addRound()" >Ajouter la manche</button>
-    </mat-card>
-  <!-- </div> -->
-
+  <ng-template matTabContent>
+      <app-current-game></app-current-game>
+  </ng-template>
+    </mat-tab>
+    <mat-tab label="Scores">
+      <app-scores></app-scores>
+    </mat-tab>
+  </mat-tab-group>
 </div>

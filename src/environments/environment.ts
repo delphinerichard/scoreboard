@@ -2,10 +2,6 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false
-};
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
@@ -14,3 +10,34 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+
+// Import the functions you need from the SDKs you need
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAOEHquePu6RTTAEstnRCoVCXM7DvT3xWY",
+  authDomain: "scoreboard-47ae9.firebaseapp.com",
+  projectId: "scoreboard-47ae9",
+  storageBucket: "scoreboard-47ae9.appspot.com",
+  messagingSenderId: "995028765986",
+  appId: "1:995028765986:web:09545451828c3ae47fe97b",
+  measurementId: "G-Z8RSCQPCM0"
+};
+
+
+export const environment = {
+  production: false,
+  firebase : {
+    apiKey: "AIzaSyAOEHquePu6RTTAEstnRCoVCXM7DvT3xWY",
+    authDomain: "scoreboard-47ae9.firebaseapp.com",
+    projectId: "scoreboard-47ae9",
+    storageBucket: "scoreboard-47ae9.appspot.com",
+    messagingSenderId: "995028765986",
+    appId: "1:995028765986:web:09545451828c3ae47fe97b",
+    measurementId: "G-Z8RSCQPCM0"
+
+  }
+};

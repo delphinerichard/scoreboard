@@ -1,5 +1,9 @@
 .mat-card{
-    width: 50%;
+    /* width: 50%; */
     align-items: center;
     text-align: center;
+}
+
+.new-game{
+    margin: auto;
 }

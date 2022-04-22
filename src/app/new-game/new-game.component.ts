@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
-
+import { DashboardComponent } from '../dashboard/dashboard.component';
+import { CurrentGameComponent } from '../current-game/current-game.component';
 
 export interface PlayerData {
   player1: string;
@@ -12,16 +13,12 @@ export interface PlayerData {
   nbPlayers: number;
 }
 
-
-
-
 @Component({
   selector: 'app-new-game',
   templateUrl: './new-game.component.html',
-  styleUrls: ['./new-game.component.css']
+  styleUrls: ['./new-game.component.css'],
 })
 export class NewGameComponent implements OnInit {
-
 
   nbPlayersControl = new FormControl('', Validators.required);
   data: PlayerData = {
@@ -30,17 +27,23 @@ export class NewGameComponent implements OnInit {
     nbPlayers: 2
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public dashboardComponent: DashboardComponent) { }
 
   ngOnInit(): void {
-    localStorage.clear()
+    if(localStorage.getItem('playerList') !== null){
+      this.dashboardComponent.activate = true;
+      this.dashboardComponent.selectedIndex = 1;
+    }
   }
 
 
   onClick(){
     if(this.checkData(parseInt(this.nbPlayersControl.value))){
       this.data = {...this.data, nbPlayers: parseInt(this.nbPlayersControl.value)}
-      this.router.navigateByUrl('/play',  { state: this.data })
+      this.dashboardComponent.activate = true;
+      this.dashboardComponent.selectedIndex = 1;
+
+      localStorage.setItem('playerList', JSON.stringify(this.data));
     }
   }
 
