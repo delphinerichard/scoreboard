@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { NewGameComponent } from '../new-game/new-game.component';
 
 export interface Round {
   round_id: number;
@@ -34,13 +33,6 @@ export interface NewRoundData {
   player5?: {name: string; score: number};
 }
 
-export interface GameData {
-  id: number;
-  players: string[];
-  nbPlayers: number;
-  nbRounds: number;
-  rounds: number[][];
-}
 
 @Component({
   selector: 'app-current-game',
@@ -49,7 +41,7 @@ export interface GameData {
 })
 export class CurrentGameComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private location: Location, private router: Router, private store: AngularFirestore, private dashboardComponent: DashboardComponent) { 
+  constructor(public dialog: MatDialog, private store: AngularFirestore, private dashboardComponent: DashboardComponent) { 
     // let data: any = this.location.getState();
     const data = JSON.parse(localStorage.getItem('playerList') || '{}') 
     if(data.player1 === undefined || data.player1 === ''){
@@ -97,16 +89,17 @@ export class CurrentGameComponent implements OnInit {
   table!: MatTable<Round>;
 
 
-  todo = this.store.collection('todo').valueChanges({idField: 1}) as Observable<GameData[]>;
-
-
-  newGame(){
-    localStorage.clear();
-    this.dashboardComponent.selectedIndex = 0;
-    this.dashboardComponent.activate = false;
+  newGame(fromSave: boolean){
+    if(!fromSave){    
+      if (window.confirm("Créer une nouvelle partie ? \nCette action supprimera la partie en cours.")){
+        localStorage.clear();
+        this.dashboardComponent.selectedIndex = 0;
+        this.dashboardComponent.activate = false;
+      }
+    }
   }
 
-  getTotalCost(player: number) {
+  getTotal(player: number) {
     if(this.rounds.length === 0 || player > this.nbPlayers){
       return null;
     }
@@ -165,35 +158,35 @@ export class CurrentGameComponent implements OnInit {
         formDef: 'player1Form',
         header: this.players.player1,
         cell: (element: Round) => `${element.player1}`,
-        footer: () => this.getTotalCost(1)
+        footer: () => this.getTotal(1)
       },
       {
         columnDef: 'player2',
         formDef: 'player2Form',
         header: this.players.player2,
         cell: (element: Round) => `${element.player2}`,
-        footer: () => this.getTotalCost(2)
+        footer: () => this.getTotal(2)
       },
       {
         columnDef: 'player3',
         formDef: 'player3Form',
         header: this.players.player3,
         cell: (element: Round) => `${element.player3}`,
-        footer: () => this.getTotalCost(3)
+        footer: () => this.getTotal(3)
       },
       {
         columnDef: 'player4',
         formDef: 'player4Form',
         header: this.players.player4,
         cell: (element: Round) => `${element.player4}`,
-        footer: () => this.getTotalCost(4)
+        footer: () => this.getTotal(4)
       },
       {
         columnDef: 'player5',
         formDef: 'player5Form',
         header: this.players.player5,
         cell: (element: Round) => `${element.player5}`,
-        footer: () => this.getTotalCost(5)
+        footer: () => this.getTotal(5)
       },
     ];
     tempColumns.forEach((col, i) => {
@@ -266,32 +259,51 @@ export class CurrentGameComponent implements OnInit {
     }
   }
 
-  saveGame(){
-    const myObserver = {
-      next: (x: number) => console.log('Observer got a next value: ' + x),
-      error: (err: Error) => console.error('Observer got an error: ' + err),
-      complete: () => console.log('Observer got a complete notification'),
-    };
-    const test = this.store.collection('games').valueChanges() as Observable<GameData[]>;
-    // console.log(
-      test.subscribe((o) => console.log(o));
-    // console.log(this.store.collection('games').valueChanges().subscribe())
+  async saveGame(){
+    if (window.confirm("Enregistrer la partie ? \nCette action est irréversible.")){
+    let playersToSave: (string|undefined)[] = []
+    switch (this.players.nbPlayers){
+      case 2: playersToSave = [this.players.player1, this.players.player2]; break;
+      case 3: playersToSave = [this.players.player1, this.players.player2, this.players.player3]; break;
+      case 4: playersToSave = [this.players.player1, this.players.player2, this.players.player3, this.players.player4]; break;
+      case 5: playersToSave = [this.players.player1, this.players.player2, this.players.player3, this.players.player4, this.players.player5]; break;
+    }
+    const total = this.computeTotal();
     const item = {
-      id: 1,
-      players: ['Delphine'],
-      nbPlayers: 1,
-      nbRounds: 2,
-      rounds: [[1, 2]]
-    };
-    // this.store.collection('games').add(item)
-    // this.store.firestore.runTransaction(() => {
-    //   const promise = Promise.all([
-    //     // this.store.collection('games').doc(item.id.toString()).delete(),
-    //     this.store.collection('games').add(item),
-    //   ]);
-    //   return promise;
-    // });
+      players: playersToSave,
+      nbPlayers: this.players.nbPlayers,
+      nbRounds: this.rounds.length,
+      rounds: this.rounds,
+      total: total,
+      winner: this.computeWinner(total)
+    }
+    this.store.collection('games').add(item);
+    this.newGame(true);
   }
+  }
+
+
+  computeTotal(){
+    let total: number[] = [];
+    for(let i = 0; i<this.nbPlayers; i++){
+      const totalByPlayer = this.getTotal(i+1) || 0;
+      total.push(totalByPlayer)
+    }
+    return total
+  }
+
+  computeWinner(total: number[]){
+    const idWinner = total.indexOf(Math.min(...total));
+    switch (idWinner){
+      case 0: return this.players.player1;
+      case 1: return this.players.player2;
+      case 2: return this.players.player3;
+      case 3: return this.players.player4;
+      case 4: return this.players.player5;
+      default: return '';
+    }
+  }
+
 }
 
 

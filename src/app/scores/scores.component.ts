@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 
 export interface GameData {
-  id: number;
   players: string[];
   nbPlayers: number;
   nbRounds: number;
-  rounds: number[][];
+  rounds: Round[];
   total: number[];
+  winner: string;
 }
 
 export interface Round {
@@ -25,89 +27,125 @@ export interface Round {
 })
 export class ScoresComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: AngularFirestore) { }
 
   ngOnInit(): void {
-  }
 
-  panelOpenState = false;
+    const test = this.store.collection('games').valueChanges() as Observable<GameData[]>;
+    test.subscribe((o) => this.testData = o);
+  }
+  
 
   testData: GameData[] = [
     {
-      id: 1,
       players: ['Delphine', 'Jérémie'],
       nbPlayers: 2,
       nbRounds: 4,
-      rounds: [[12, 13], [5, 6], [9, 6], [14, 15]],
-      total: [4, 5]
+      rounds: [
+        {
+          round_id: 1,
+          player1: 12,
+          player2: 13
+        },
+        {
+          round_id: 2,
+          player1: 5,
+          player2: 6
+        },
+        {
+          round_id: 3,
+          player1: 9,
+          player2: 6
+        },
+        {
+          round_id: 4,
+          player1: 14,
+          player2: 15
+        },
+      ],
+      total: [4, 5],
+      winner: 'Delphine'
     },
     {
-      id: 2,
       players: ['Delphine', 'Jérémie', 'Thomas'],
       nbPlayers: 3,
       nbRounds: 4,
-      rounds: [[12, 13, 5], [5, 6, 5], [9, 6, 5], [14, 15, 5]],
-      total: [4, 5, 6]
+      rounds: [
+        {
+          round_id: 1,
+          player1: 12,
+          player2: 13,
+          player3: 5
+        },
+        {
+          round_id: 2,
+          player1: 5,
+          player2: 6,
+          player3: 5,
+        },
+        {
+          round_id: 3,
+          player1: 9,
+          player2: 6,
+          player3: 4
+        },
+        {
+          round_id: 4,
+          player1: 14,
+          player2: 15,
+          player3: 12
+        },
+      ],
+      total: [4, 5, 6], 
+      winner: 'Toto'
     },
     {
-      id: 3,
       players: ['Delphine', 'Jérémie', 'Thomas', 'Zoé'],
       nbPlayers: 4,
       nbRounds: 4,
-      rounds: [[12, 13, 5, 7], [5, 6, 5, 7], [9, 6, 5, 2], [14, 15, 5, 2]],
-      total: [4, 5, 6, 7]
+      rounds: [
+        {
+          round_id: 1,
+          player1: 12,
+          player2: 13,
+          player3: 5, 
+          player4: 12
+        },
+        {
+          round_id: 2,
+          player1: 5,
+          player2: 6,
+          player3: 5, 
+          player4: 14
+        },
+        {
+          round_id: 3,
+          player1: 9,
+          player2: 6,
+          player3: 4, 
+          player4: 17
+        },
+        {
+          round_id: 4,
+          player1: 14,
+          player2: 15,
+          player3: 12, 
+          player4: 0
+        },
+      ],
+      total: [4, 5, 6, 7],
+      winner: 'tata'
     },
   ]
 
-  displayedColumns = ["player1"]
-
-  // setColumns(){
-  //   const finalColumns: any[] = [];
-  //   const tempColumns = [
-  //     {
-  //       columnDef: 'round',
-  //       formDef: 'newRound',
-  //       header: 'Round',
-  //       cell: (element: Round) => `${element.player1}`,
-  //       footer: () => 'Total'
-  //     },
-  //     {
-  //       columnDef: 'player1',
-  //       formDef: 'player1Form',
-  //       header: this.players.player1,
-  //       cell: (element: Round) => `${element.player1}`,
-  //     },
-  //     {
-  //       columnDef: 'player2',
-  //       formDef: 'player2Form',
-  //       header: this.players.player2,
-  //       cell: (element: Round) => `${element.player2}`,
-  //     },
-  //     {
-  //       columnDef: 'player3',
-  //       formDef: 'player3Form',
-  //       header: this.players.player3,
-  //       cell: (element: Round) => `${element.player3}`,
-  //     },
-  //     {
-  //       columnDef: 'player4',
-  //       formDef: 'player4Form',
-  //       header: this.players.player4,
-  //       cell: (element: Round) => `${element.player4}`,
-  //     },
-  //     {
-  //       columnDef: 'player5',
-  //       formDef: 'player5Form',
-  //       header: this.players.player5,
-  //       cell: (element: Round) => `${element.player5}`,
-  //     },
-  //   ];
-  //   tempColumns.forEach((col, i) => {
-  //     if(i < this.testData[i].nbPlayers + 1 ){
-  //       finalColumns.push(col)
-  //     }
-  //   });
-  //   return finalColumns;
-  // }
-
+  displayedColumns(nbPlayers: number) {
+    switch (nbPlayers){
+      case 1: return ["round_id", "player1"];
+      case 2: return ["round_id", "player1", "player2"];
+      case 3: return ["round_id", "player1", "player2", "player3"];
+      case 4: return ["round_id", "player1", "player2", "player3", "player4"];
+      case 5: return ["round_id", "player1", "player2", "player3", "player4", "player5"];
+      default: return [];
+    }
+  }
 }

@@ -1,34 +1,28 @@
-<p>scores works!</p>
 <mat-accordion>
-    <!-- <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Round 1
-        </mat-panel-title>
-        <mat-panel-description>
-          Joueuses
-        </mat-panel-description>
-        <mat-panel-description>
-          Date
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>Tableau des scores</p>
-    </mat-expansion-panel> -->
     <mat-expansion-panel *ngFor="let game of testData">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Round {{game.id}}
+        <mat-panel-title class="game">
+          Partie {{testData.indexOf(game)}}
         </mat-panel-title>
-        <mat-panel-description>
+        <mat-panel-description class="players">
             <div *ngFor="let player of game.players" class="space">
                 {{player}}
             </div>
         </mat-panel-description>
+        <mat-panel-description class="winner">
+          <h4>Gagnante : {{game.winner}}</h4>
+        </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <table mat-table>
-      <ng-container matColumnDef="newRound">
-        <td mat-footer-cell *matFooterCellDef> {{game.rounds.length +1 }} </td>
+      <table mat-table [dataSource]="game.rounds">
+      <ng-container matColumnDef="round_id">
+        <th mat-header-cell *matHeaderCellDef>
+            Rounds
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{row.round_id}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef> Total </td>
       </ng-container>
 
       <ng-container matColumnDef="player1">
@@ -36,8 +30,7 @@
             {{game.players[0]}}
         </th>
         <td mat-cell *matCellDef="let row">
-            z
-          {{row}}
+          {{row.player1}}
         </td>
         <td mat-footer-cell *matFooterCellDef>
           {{game.total[0]}}
@@ -45,34 +38,58 @@
       </ng-container>
 
       <ng-container matColumnDef="player2">
+        <th mat-header-cell *matHeaderCellDef>
+            {{game.players[1]}}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{row.player2}}
+        </td>
         <td mat-footer-cell *matFooterCellDef>
-          d
+          {{game.total[1]}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="player3" *ngIf="game.nbPlayers>=3">
+        <th mat-header-cell *matHeaderCellDef>
+            {{game.players[2]}}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{row.player3}}
+        </td>
         <td mat-footer-cell *matFooterCellDef>
-          f
+          {{game.total[2]}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="player4" *ngIf="game.nbPlayers>=4">
+        <th mat-header-cell *matHeaderCellDef>
+            {{game.players[3]}}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{row.player4}}
+        </td>
         <td mat-footer-cell *matFooterCellDef>
-          j
+          {{game.total[3]}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="player5" *ngIf="game.nbPlayers>=5">
+        <th mat-header-cell *matHeaderCellDef>
+            {{game.players[4]}}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{row.player5}}
+        </td>
         <td mat-footer-cell *matFooterCellDef>
-          f
+          {{game.total[4]}}
         </td>
       </ng-container>
 
 
   
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns(game.nbPlayers)"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns(game.nbPlayers);"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns(game.nbPlayers); sticky: true"></tr>
     </table>
 
         <!-- <table mat-table [dataSource]="testData">

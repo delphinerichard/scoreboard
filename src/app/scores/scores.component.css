@@ -1,3 +1,16 @@
 .space {
     margin: 10px;
+    text-align: left;
+}
+
+.winner{
+    justify-content: right;
+}
+
+.players{
+    justify-content: left;
+}
+
+.game{
+    width: 20px;
 }
