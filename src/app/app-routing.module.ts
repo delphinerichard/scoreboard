@@ -8,24 +8,12 @@ import { ScoresComponent } from './scores/scores.component';
 
 const routes: Routes = [
   {
-    path: 'play2',
-    component: CurrentGameComponent,
-  },
-  {
-    path: 'play',
+    path: '',
     component: DashboardComponent,
   },
   {
-    path: 'newGame',
-    component: NewGameComponent,
-  },
-  {
-    path: 'scores',
-    component: ScoresComponent,
-  },
-  {
     path: '**',
-    redirectTo: 'play'
+    redirectTo: ''
   },
 ];
 
