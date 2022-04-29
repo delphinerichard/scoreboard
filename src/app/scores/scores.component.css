@@ -3,7 +3,7 @@
     text-align: left;
 }
 
-.winner{
+.date{
     justify-content: right;
 }
 
@@ -13,4 +13,41 @@
 
 .game{
     width: 20px;
+    justify-content: left
+}
+
+.mat-footer-cell {
+    width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: bold;
+}
+  
+.mat-header-cell {
+    width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #7f1734;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    align-items: center;
+    text-align: center;
+}
+  
+.mat-cell {
+    width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+table {
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-right: 5%;
+    margin-left: 5%; 
 }

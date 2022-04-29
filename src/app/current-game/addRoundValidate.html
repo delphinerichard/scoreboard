@@ -1,56 +1,22 @@
 <h1 mat-dialog-title>Scores</h1>
-<div mat-dialog-content>
-
-    <mat-card>
-        <mat-grid-list cols="2" rowHeight="1:1">
+<div mat-dialog-content style="height: fit-content">
+        <mat-grid-list *ngFor="let in of counter(); let i = index" cols="2" rowHeight="50px">
             <mat-grid-tile>
                 <mat-list>
-                    <mat-list-item>
-                        {{data.player1.name}}
-                    </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item>
-                        {{data.player2.name}}
-                    </mat-list-item>
-                    <mat-divider *ngIf="data.player3"></mat-divider>
-                    <mat-list-item *ngIf="data.player3">
-                        {{data.player3.name}}
-                    </mat-list-item>
-                    <mat-divider *ngIf="data.player4"></mat-divider>
-                    <mat-list-item *ngIf="data.player4">
-                        {{data.player4.name}}
-                    </mat-list-item>
-                    <mat-divider *ngIf="data.player5"></mat-divider>
-                    <mat-list-item *ngIf="data.player5">
-                        {{data.player5.name}}
+                    <mat-list-item >
+                        {{data.playersName[i]}}
                     </mat-list-item>
                 </mat-list>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-list>
                     <mat-list-item>
-                        {{data.player1.score}}
-                    </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item>
-                        {{data.player2.score}}
-                    </mat-list-item>
-                    <mat-divider *ngIf="data.player3"></mat-divider>
-                    <mat-list-item *ngIf="data.player3">
-                        {{data.player3.score}}
-                    </mat-list-item>
-                    <mat-divider *ngIf="data.player4"></mat-divider>
-                    <mat-list-item *ngIf="data.player4">
-                        {{data.player4.score}}
-                    </mat-list-item>
-                    <mat-divider *ngIf="data.player5"></mat-divider>
-                    <mat-list-item *ngIf="data.player5">
-                        {{data.player5.score}}
+                        {{data.scores[i]}}
                     </mat-list-item>
                 </mat-list>
             </mat-grid-tile>
+            <mat-divider></mat-divider>
         </mat-grid-list>
-    </mat-card>
 </div>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false">Annuler</button>

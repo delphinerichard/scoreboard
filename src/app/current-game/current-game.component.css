@@ -1,92 +1,66 @@
-.newRoundButton{
-    color: white;
-    background-color: #7f1734;
-    margin-top: 20px
-  }
-  
-  span{
-    font-size: xx-large;
-  }
-  
-  .example-container {
-      height: 570px;
-      width: 100%;
-      overflow: auto;
-    }
-    
-    table{
-      width: 100%;
-      border-left: 1px solid;
-      border-top: 1px solid;
-      border-bottom: 1px solid;
-    }
-    tr.mat-footer-row {
-      font-weight: bold;
-    }
-  
-    .mat-footer-cell {
-      border-right: 1px solid;
-    }
-  
-    .mat-header-cell {
-      background-color: #7f1734;
-      color: white;
-      font-weight: bold;
-      font-size: large;
-      align-items: center;
-      text-align: center;
-    }
-    
-    .mat-table-sticky {
-      border-top: 1px solid #e0e0e0;
-    }
-  
-    .mat-column-player1 {
-      width: 18%;
-      align-items: center;
-      text-align: center;
-      border-right: 1px solid;
-    }
-    .mat-column-player2 {
-      width: 18%;
-      align-items: center;
-      text-align: center;
-      border-right: 1px solid;
-    }
-    .mat-column-player3 {
-      width: 18%;
-      align-items: center;
-      text-align: center;
-      border-right: 1px solid;
-    }
-  
-    .mat-column-player4 {
-      width: 18%;
-      align-items: center;
-      text-align: center;
-      border-right: 1px solid;
-    }
-  
-    .mat-column-player5 {
-      width: 18%;
-      align-items: center;
-      text-align: center;
-      border-right: 1px solid;
-    }
-  
-    .mat-column-round{
-      width: 10%;
-      border-right: 1px solid currentColor;
-      /* padding-left: 20px ; */
-      text-align: center;
-      align-items: center;
-    }
-  
-    .formNewRound{
-      padding-top: 10px;
-      width: 200px;
-    }
+.newRoundButton {
+  color: white;
+  background-color: #7f1734;
+  margin-top: 20px; }
 
-    .mat-card{
-      width: auto;
-    }
+.formNewRound {
+  padding-top: 10%;
+  width: 75px;
+  text-align: center; }
+
+.mat-footer-cell {
+  width: 10%;
+  padding-left: 1%;
+  padding-right: 1%;
+  border-right: 1px solid;
+  font-weight: bold; }
+
+.mat-header-cell {
+  width: 10%;
+  padding-left: 1%;
+  padding-right: 1%;
+  background-color: #7f1734;
+  border-right: 1px solid;
+  border-color: white;
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  align-items: center;
+  text-align: center; }
+
+.mat-cell {
+  width: 10%;
+  padding-left: 1%;
+  padding-right: 1%;
+  border-right: 1px solid; }
+
+.mat-column-round {
+  width: 5%;
+  padding-right: 2%;
+}
+
+.mat-column-newRound {
+  width: 5%;
+  padding-right: 2%; }
+
+span {
+  font-size: xx-large; }
+
+table {
+  border-left: 1px solid;
+  border-right: 1px solid;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 90%;
+  margin-right: 5%;
+  margin-left: 5%; }
+
+.mat-table-sticky {
+  border-top: 2px solid #e0e0e0; }
+
+.mat-card {
+  width: 90%;
+  margin-right: 5%;
+  margin-left: 5%; }

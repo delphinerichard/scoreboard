@@ -1,16 +1,17 @@
 <mat-accordion>
-    <mat-expansion-panel *ngFor="let game of testData">
+    <mat-expansion-panel *ngFor="let game of data">
       <mat-expansion-panel-header>
         <mat-panel-title class="game">
-          Partie {{testData.indexOf(game)}}
+          <div class="space">{{data.length - data.indexOf(game)}}</div>
+          <h4 class="space">{{getDay(game.date)}}</h4>
         </mat-panel-title>
         <mat-panel-description class="players">
             <div *ngFor="let player of game.players" class="space">
                 {{player}}
             </div>
         </mat-panel-description>
-        <mat-panel-description class="winner">
-          <h4>Gagnante : {{game.winner}}</h4>
+        <mat-panel-description class="date">
+        <h4 class="winner">Gagnante : {{game.winner}}</h4>
         </mat-panel-description>
       </mat-expansion-panel-header>
 
@@ -25,88 +26,21 @@
         <td mat-footer-cell *matFooterCellDef> Total </td>
       </ng-container>
 
-      <ng-container matColumnDef="player1">
+      <ng-container *ngFor="let in of counter(game.nbPlayers); let i = index" [matColumnDef]="displayedColumns(game.nbPlayers)[i+1]">
         <th mat-header-cell *matHeaderCellDef>
-            {{game.players[0]}}
+            {{game.players[i]}}
         </th>
         <td mat-cell *matCellDef="let row">
-          {{row.player1}}
+          {{row.scores[i]}}
         </td>
         <td mat-footer-cell *matFooterCellDef>
-          {{game.total[0]}}
+          {{game.total[i]}}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="player2">
-        <th mat-header-cell *matHeaderCellDef>
-            {{game.players[1]}}
-        </th>
-        <td mat-cell *matCellDef="let row">
-          {{row.player2}}
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
-          {{game.total[1]}}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="player3" *ngIf="game.nbPlayers>=3">
-        <th mat-header-cell *matHeaderCellDef>
-            {{game.players[2]}}
-        </th>
-        <td mat-cell *matCellDef="let row">
-          {{row.player3}}
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
-          {{game.total[2]}}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="player4" *ngIf="game.nbPlayers>=4">
-        <th mat-header-cell *matHeaderCellDef>
-            {{game.players[3]}}
-        </th>
-        <td mat-cell *matCellDef="let row">
-          {{row.player4}}
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
-          {{game.total[3]}}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="player5" *ngIf="game.nbPlayers>=5">
-        <th mat-header-cell *matHeaderCellDef>
-            {{game.players[4]}}
-        </th>
-        <td mat-cell *matCellDef="let row">
-          {{row.player5}}
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
-          {{game.total[4]}}
-        </td>
-      </ng-container>
-
-
-  
       <tr mat-header-row *matHeaderRowDef="displayedColumns(game.nbPlayers)"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns(game.nbPlayers);"></tr>
       <tr mat-footer-row *matFooterRowDef="displayedColumns(game.nbPlayers); sticky: true"></tr>
     </table>
-
-        <!-- <table mat-table [dataSource]="testData">
-            <ng-container *ngFor="let player in game.players">
-            <ng-container *ngFor="let round in game.rounds" [matColumnDef]="round.id" >
-                <th mat-header-cell *matHeaderCellDef >
-                <div>column.header</div>
-                </th>
-                <td mat-cell *matCellDef="let row ">
-                <div>column.cell(row)</div>
-                </td>
-                <td mat-footer-cell *matFooterCellDef> Total </td>
-            </ng-container>
-        </ng-container>   
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
-        </table> -->
     </mat-expansion-panel>
   </mat-accordion>

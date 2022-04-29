@@ -2,15 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { CurrentGameComponent } from '../current-game/current-game.component';
 
 export interface PlayerData {
-  player1: string;
-  player2: string;
-  player3?: string;
-  player4?: string;
-  player5?: string;
   nbPlayers: number;
+  playersName: string[];
 }
 
 @Component({
@@ -22,12 +17,11 @@ export class NewGameComponent implements OnInit {
 
   nbPlayersControl = new FormControl('', Validators.required);
   data: PlayerData = {
-    player1: "",
-    player2: "",
-    nbPlayers: 2
+    nbPlayers: 2,
+    playersName: []
   }
 
-  constructor(private router: Router, public dashboardComponent: DashboardComponent) { }
+  constructor(public dashboardComponent: DashboardComponent) { }
 
   ngOnInit(): void {
     if(localStorage.getItem('playerList') !== null){
@@ -46,30 +40,22 @@ export class NewGameComponent implements OnInit {
       localStorage.setItem('playerList', JSON.stringify(this.data));
     }
   }
-
-  checkData(nbPlayers: number){
-    switch(nbPlayers){
-      case 2: return (this.data.player1 !== "" && this.data.player2 !== ""); 
-      case 3: return (
-        this.data.player1 !== "" && 
-        this.data.player2 !== "" &&
-        this.data.player3
-      );
-      case 4: return (
-        this.data.player1 !== "" && 
-        this.data.player2 !== "" &&
-        this.data.player3 &&
-        this.data.player4
-      );
-      case 5: return (
-        this.data.player1 !== "" && 
-        this.data.player2 !== "" &&
-        this.data.player3 &&
-        this.data.player4 &&
-        this.data.player5 
-      );
-      default: return false;
+  counter(){
+    if(parseInt(this.nbPlayersControl.value)){
+      return new Array(parseInt(this.nbPlayersControl.value));
+    }else{
+      return[]
     }
+  }
+
+  checkData(nbPlayers: number): boolean{
+
+    for (let i =0; i< nbPlayers; i++){
+      if (!this.data.playersName[i]){
+        return false;
+      }
+    }
+    return true;
   }
 
 }

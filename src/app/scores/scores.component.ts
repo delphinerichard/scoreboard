@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Timestamp } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 export interface GameData {
@@ -9,15 +10,12 @@ export interface GameData {
   rounds: Round[];
   total: number[];
   winner: string;
+  date: Timestamp;
 }
 
 export interface Round {
   round_id: number;
-  player1: number;
-  player2?: number;
-  player3?: number;
-  player4?:number;
-  player5?: number;
+  scores: number[];
 }
 
 @Component({
@@ -31,121 +29,51 @@ export class ScoresComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const test = this.store.collection('games').valueChanges() as Observable<GameData[]>;
-    test.subscribe((o) => this.testData = o);
+    const dataRef = this.store.collection<GameData>("gamesData", data => data.orderBy("date", "desc")).valueChanges() as Observable<GameData[]>;
+    dataRef.subscribe((o) => this.data = o)
   }
   
 
-  testData: GameData[] = [
-    {
-      players: ['Delphine', 'Jérémie'],
-      nbPlayers: 2,
-      nbRounds: 4,
-      rounds: [
-        {
-          round_id: 1,
-          player1: 12,
-          player2: 13
-        },
-        {
-          round_id: 2,
-          player1: 5,
-          player2: 6
-        },
-        {
-          round_id: 3,
-          player1: 9,
-          player2: 6
-        },
-        {
-          round_id: 4,
-          player1: 14,
-          player2: 15
-        },
-      ],
-      total: [4, 5],
-      winner: 'Delphine'
-    },
-    {
-      players: ['Delphine', 'Jérémie', 'Thomas'],
-      nbPlayers: 3,
-      nbRounds: 4,
-      rounds: [
-        {
-          round_id: 1,
-          player1: 12,
-          player2: 13,
-          player3: 5
-        },
-        {
-          round_id: 2,
-          player1: 5,
-          player2: 6,
-          player3: 5,
-        },
-        {
-          round_id: 3,
-          player1: 9,
-          player2: 6,
-          player3: 4
-        },
-        {
-          round_id: 4,
-          player1: 14,
-          player2: 15,
-          player3: 12
-        },
-      ],
-      total: [4, 5, 6], 
-      winner: 'Toto'
-    },
-    {
-      players: ['Delphine', 'Jérémie', 'Thomas', 'Zoé'],
-      nbPlayers: 4,
-      nbRounds: 4,
-      rounds: [
-        {
-          round_id: 1,
-          player1: 12,
-          player2: 13,
-          player3: 5, 
-          player4: 12
-        },
-        {
-          round_id: 2,
-          player1: 5,
-          player2: 6,
-          player3: 5, 
-          player4: 14
-        },
-        {
-          round_id: 3,
-          player1: 9,
-          player2: 6,
-          player3: 4, 
-          player4: 17
-        },
-        {
-          round_id: 4,
-          player1: 14,
-          player2: 15,
-          player3: 12, 
-          player4: 0
-        },
-      ],
-      total: [4, 5, 6, 7],
-      winner: 'tata'
-    },
-  ]
+  data: GameData[] = []
 
   displayedColumns(nbPlayers: number) {
-    switch (nbPlayers){
-      case 1: return ["round_id", "player1"];
-      case 2: return ["round_id", "player1", "player2"];
-      case 3: return ["round_id", "player1", "player2", "player3"];
-      case 4: return ["round_id", "player1", "player2", "player3", "player4"];
-      case 5: return ["round_id", "player1", "player2", "player3", "player4", "player5"];
-      default: return [];
+    let columns = ["round_id"];
+    for (let i = 1; i < nbPlayers + 1; i++){
+      const name = "player"+i;
+      columns.push(name);
+    }
+    return columns;
+  }
+
+  getDay(time: Timestamp){
+    const current = new Date(time.seconds *1000);
+    const currentDay = current.getDate();
+    const currentMonth = current.getMonth();
+    const currentYear = current.getFullYear();
+    let month = "";
+    switch (currentMonth){
+        case 1: month = "Janvier"; break;
+        case 2: month = "Février"; break;
+        case 3: month = "Mars"; break;
+        case 4: month = "Avril"; break;
+        case 5: month = "Mai"; break;
+        case 6: month = "Juin"; break;
+        case 7: month = "Juillet"; break;
+        case 8: month = "Août"; break;
+        case 9: month = "Septembre"; break;
+        case 10: month = "Octobre"; break;
+        case 11: month = "Novembre"; break;
+        case 12: month = "Décembre"; break;
+        default: month = `${currentMonth}`;
+    }
+    return `${currentDay} ${month} ${currentYear}`;
+  }
+
+  counter(nbPlayers: number){
+    if(nbPlayers){
+      return new Array(nbPlayers);
+    }else{
+      return[]
     }
   }
 }
