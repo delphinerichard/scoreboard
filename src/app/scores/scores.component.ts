@@ -48,7 +48,7 @@ export class ScoresComponent implements OnInit {
   getDay(time: Timestamp){
     const current = new Date(time.seconds *1000);
     const currentDay = current.getDate();
-    const currentMonth = current.getMonth();
+    const currentMonth = current.getMonth() + 1;
     const currentYear = current.getFullYear();
     let month = "";
     switch (currentMonth){
