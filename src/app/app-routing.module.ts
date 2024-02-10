@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CurrentGameComponent } from './current-game/current-game.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { NewGameComponent } from './new-game/new-game.component';
-import { ScoresComponent } from './scores/scores.component';
+import { DashboardComponent } from './skyjo/dashboard/dashboard.component';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { PaleoDashboardComponent } from './paleo/paleo-dashboard/paleo-dashboard.component';
 
 
 const routes: Routes = [
   {
     path: '',
+    component: MainDashboardComponent,
+  },
+  {
+    path: 'skyjo',
     component: DashboardComponent,
+  },
+  {
+    path: 'paleo',
+    component: PaleoDashboardComponent,
   },
   {
     path: '**',

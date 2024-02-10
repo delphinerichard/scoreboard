@@ -176,7 +176,7 @@ export class CurrentGameComponent implements OnInit {
         winner: this.computeWinner(total),
         date: new Date()
       }
-      this.store.collection('gamesData').add(item);
+      this.store.collection('skyjo').add(item);
       this.newGame(true);
     }
   }

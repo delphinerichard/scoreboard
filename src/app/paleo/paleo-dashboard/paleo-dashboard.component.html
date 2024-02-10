@@ -1,0 +1,14 @@
+<div class="content" role="main">
+    <mat-tab-group mat-align-tabs="center" primary [(selectedIndex)]=selectedIndex>
+      <mat-tab label="Nouvelle partie">
+      </mat-tab>
+      <mat-tab label="Partie en cours" [disabled]="!activate">
+  
+    <ng-template matTabContent>
+        <h1>CurrentGame</h1>
+    </ng-template>
+      </mat-tab>
+      <mat-tab label="Scores">
+      </mat-tab>
+    </mat-tab-group>
+  </div>

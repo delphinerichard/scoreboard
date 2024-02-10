@@ -29,7 +29,7 @@ export class ScoresComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const dataRef = this.store.collection<GameData>("gamesData", data => data.orderBy("date", "desc")).valueChanges() as Observable<GameData[]>;
+    const dataRef = this.store.collection<GameData>("skyjo", data => data.orderBy("date", "desc")).valueChanges() as Observable<GameData[]>;
     dataRef.subscribe((o) => this.data = o)
   }
   
